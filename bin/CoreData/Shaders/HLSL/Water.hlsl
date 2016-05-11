@@ -44,11 +44,20 @@ void VS(float4 iPos : POSITION,
     #if defined(D3D11) && defined(CLIPPLANE)
         out float oClip : SV_CLIPDISTANCE0,
     #endif
-    out float4 oPos : OUTPOSITION)
+    out float4 oPos : OUTPOSITION,
+	out float elTime : TEXCOORD5
+	)
 {
+
+
+
     float4x3 modelMatrix = iModelMatrix;
     float3 worldPos = GetWorldPos(modelMatrix);
     oPos = GetClipPos(worldPos);
+
+	oPos.y += sin(cElapsedTime) + 1;
+
+	elTime = sin(cElapsedTime) + 1;
 
     oScreenPos = GetScreenPos(oPos);
     // GetQuadTexCoord() returns a float2 that is OK for quad rendering; multiply it with output W
@@ -57,6 +66,8 @@ void VS(float4 iPos : POSITION,
     oWaterUV = iTexCoord * cNoiseTiling + cElapsedTime * cNoiseSpeed;
     oNormal = GetWorldNormal(modelMatrix);
     oEyeVec = float4(cCameraPos - worldPos, GetDepth(oPos));
+
+
 
     #if defined(D3D11) && defined(CLIPPLANE)
         oClip = dot(oPos, cClipPlane);
@@ -69,10 +80,12 @@ void PS(
     float2 iWaterUV : TEXCOORD2,
     float3 iNormal : TEXCOORD3,
     float4 iEyeVec : TEXCOORD4,
+	float elTime :   TEXCOORD5,
     #if defined(D3D11) && defined(CLIPPLANE)
         float iClip : SV_CLIPDISTANCE0,
     #endif
-    out float4 oColor : OUTCOLOR0)
+    out float4 oColor : OUTCOLOR0
+	)
 {
     float2 refractUV = iScreenPos.xy / iScreenPos.w;
     float2 reflectUV = iReflectUV.xy / iScreenPos.w;
@@ -90,4 +103,9 @@ void PS(
     float3 finalColor = lerp(refractColor, reflectColor, fresnel);
 
     oColor = float4(GetFog(finalColor, GetFogFactor(iEyeVec.w)), 1.0);
+
+
+	oColor.rg -= elTime / 10; 
+
+
 }
