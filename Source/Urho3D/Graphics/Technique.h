@@ -61,6 +61,8 @@ public:
     void SetIsDesktop(bool enable);
     /// Set vertex shader name.
     void SetVertexShader(const String& name);
+	/// Set tessellation properties.
+	void SetTessellationProperties(unsigned int tesFactor,float tesFactorDistanceScale);
     /// Set pixel shader name.
     void SetPixelShader(const String& name);
     /// Set vertex shader defines.
@@ -99,6 +101,12 @@ public:
     /// Return whether requires desktop level hardware.
     bool IsDesktop() const { return isDesktop_; }
 
+	/// Return tessellation factor.
+	unsigned int GetTessellationFactor() const { return tesFactor; }
+
+	/// Return tessellation factor.
+	float GetTessellationScaleWithDistanceFactor() const { return tesFactorDistanceScale; }
+
     /// Return vertex shader name.
     const String& GetVertexShader() const { return vertexShaderName_; }
 
@@ -128,6 +136,9 @@ private:
     PassLightingMode lightingMode_;
     /// Last shaders loaded frame number.
     unsigned shadersLoadedFrameNumber_;
+	unsigned int tesFactor; // 1 means no tessellation performed
+	float tesFactorDistanceScale; //how number scales with distance (higher the faster tessellation factor will stop adding triangles when distance grows)
+	
     /// Depth write mode.
     bool depthWrite_;
     /// Alpha masking hint.

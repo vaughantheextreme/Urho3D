@@ -49,7 +49,7 @@
 
 #include <Urho3D/DebugNew.h>
 
-const float CAMERA_DISTANCE = 10.0f;
+const float CAMERA_DISTANCE = 20.0f;
 
 URHO3D_DEFINE_APPLICATION_MAIN(VehicleDemo)
 
@@ -95,7 +95,7 @@ void VehicleDemo::CreateScene()
     // so that it won't be destroyed and recreated, and we don't have to redefine the viewport on load
     cameraNode_ = new Node(context_);
     Camera* camera = cameraNode_->CreateComponent<Camera>();
-    camera->SetFarClip(500.0f);
+    camera->SetFarClip(1400.0f);
     GetSubsystem<Renderer>()->SetViewport(0, new Viewport(context_, scene_, camera));
 
     // Create static scene content. First create a zone for ambient lighting and fog control
@@ -103,8 +103,8 @@ void VehicleDemo::CreateScene()
     Zone* zone = zoneNode->CreateComponent<Zone>();
     zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
     zone->SetFogColor(Color(0.5f, 0.5f, 0.7f));
-    zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);
+    zone->SetFogStart(1200.0f);
+    zone->SetFogEnd(1400.0f);
     zone->SetBoundingBox(BoundingBox(-2000.0f, 2000.0f));
 
     // Create a directional light with cascaded shadow mapping
@@ -121,10 +121,11 @@ void VehicleDemo::CreateScene()
     Node* terrainNode = scene_->CreateChild("Terrain");
     terrainNode->SetPosition(Vector3::ZERO);
     Terrain* terrain = terrainNode->CreateComponent<Terrain>();
-    terrain->SetPatchSize(64);
-    terrain->SetSpacing(Vector3(2.0f, 0.1f, 2.0f)); // Spacing between vertices and vertical resolution of the height map
+    terrain->SetPatchSize(128);
+    terrain->SetSpacing(Vector3(4.0f, 2.0f, 4.0f)); // Spacing between vertices and vertical resolution of the height map
     terrain->SetSmoothing(true);
-    terrain->SetHeightMap(cache->GetResource<Image>("Textures/HeightMap.png"));
+  //  terrain->SetHeightMap(cache->GetResource<Image>("Textures/HeightMap.png"));
+	terrain->SetHeightMap(cache->GetResource<Image>("Textures/Test.png"));
     terrain->SetMaterial(cache->GetResource<Material>("Materials/Terrain.xml"));
     // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
     // terrain patches and other objects behind it
@@ -161,7 +162,7 @@ void VehicleDemo::CreateScene()
 void VehicleDemo::CreateVehicle()
 {
     Node* vehicleNode = scene_->CreateChild("Vehicle");
-    vehicleNode->SetPosition(Vector3(0.0f, 5.0f, 0.0f));
+    vehicleNode->SetPosition(Vector3(0.0f, 500.0f, 0.0f));
 
     // Create the vehicle logic component
     vehicle_ = vehicleNode->CreateComponent<Vehicle>();

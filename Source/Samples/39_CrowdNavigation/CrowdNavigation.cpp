@@ -61,8 +61,12 @@ CrowdNavigation::CrowdNavigation(Context* context) :
 
 void CrowdNavigation::Start()
 {
+
+
     // Execute base class startup
     Sample::Start();
+
+
 
     // Create the scene content
     CreateScene();
@@ -205,7 +209,6 @@ void CrowdNavigation::CreateUI()
     // Set starting position of the cursor at the rendering window center
     Graphics* graphics = GetSubsystem<Graphics>();
     cursor->SetPosition(graphics->GetWidth() / 2, graphics->GetHeight() / 2);
-
     // Construct new Text object, set string to display and font to use
     Text* instructionText = ui->GetRoot()->CreateChild<Text>(INSTRUCTION);
     instructionText->SetText(

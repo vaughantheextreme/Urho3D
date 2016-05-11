@@ -169,7 +169,7 @@ void Vehicle::InitWheel(const String& name, const Vector3& offset, WeakPtr<Node>
     wheelObject->SetMaterial(cache->GetResource<Material>("Materials/Stone.xml"));
     wheelObject->SetCastShadows(true);
     wheelShape->SetSphere(1.0f);
-    wheelBody->SetFriction(1.0f);
+    wheelBody->SetFriction(10.0f);
     wheelBody->SetMass(1.0f);
     wheelBody->SetLinearDamping(0.2f); // Some air resistance
     wheelBody->SetAngularDamping(0.75f); // Could also use rolling friction

@@ -119,9 +119,9 @@ void Water::CreateScene()
     terrainNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
     Terrain* terrain = terrainNode->CreateComponent<Terrain>();
     terrain->SetPatchSize(64);
-    terrain->SetSpacing(Vector3(2.0f, 0.5f, 2.0f)); // Spacing between vertices and vertical resolution of the height map
+    terrain->SetSpacing(Vector3(2.0f, 0.1f, 2.0f)); // Spacing between vertices and vertical resolution of the height map
     terrain->SetSmoothing(true);
-    terrain->SetHeightMap(cache->GetResource<Image>("Textures/HeightMap.png"));
+    terrain->SetHeightMap(cache->GetResource<Image>("Textures/test.png"));
     terrain->SetMaterial(cache->GetResource<Material>("Materials/Terrain.xml"));
     // The terrain consists of large triangles, which fits well for occlusion rendering, as a hill can occlude all
     // terrain patches and other objects behind it
@@ -148,11 +148,17 @@ void Water::CreateScene()
     waterNode_ = scene_->CreateChild("Water");
     waterNode_->SetScale(Vector3(2048.0f, 1.0f, 2048.0f));
     waterNode_->SetPosition(Vector3(0.0f, 5.0f, 0.0f));
-    StaticModel* water = waterNode_->CreateComponent<StaticModel>();
-    water->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
-    water->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
+    //StaticModel* water = waterNode_->CreateComponent<StaticModel>();
+    //water->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
+	Terrain* water = waterNode_->CreateComponent<Terrain>();
+	water->SetHeightMap(cache->GetResource<Image>("Textures/HeightMap.png"));
+	water->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
     // Set a different viewmask on the water plane to be able to hide it from the reflection camera
     water->SetViewMask(0x80000000);
+
+	water->SetPatchSize(64);
+	water->SetSpacing(Vector3(2.0f, 0.1f, 2.0f)); // Spacing between vertices and vertical resolution of the height map
+	//water->SetSmoothing(true);
 
     // Create the camera. Set far clip to match the fog. Note: now we actually create the camera node outside
     // the scene, because we want it to be unaffected by scene load / save
@@ -219,7 +225,7 @@ void Water::SetupViewport()
     int texSize = 1024;
     SharedPtr<Texture2D> renderTexture(new Texture2D(context_));
     renderTexture->SetSize(texSize, texSize, Graphics::GetRGBFormat(), TEXTURE_RENDERTARGET);
-    renderTexture->SetFilterMode(FILTER_BILINEAR);
+    renderTexture->SetFilterMode(FILTER_ANISOTROPIC);
     RenderSurface* surface = renderTexture->GetRenderSurface();
     SharedPtr<Viewport> rttViewport(new Viewport(context_, scene_, reflectionCamera));
     surface->SetViewport(0, rttViewport);

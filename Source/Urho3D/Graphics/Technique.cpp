@@ -125,6 +125,14 @@ void Pass::SetIsDesktop(bool enable)
     isDesktop_ = enable;
 }
 
+
+void Pass::SetTessellationProperties(unsigned int tesFactor_, float tesFactorDistanceScale_)
+{
+	tesFactor = tesFactor_;
+	tesFactorDistanceScale = tesFactorDistanceScale_;
+}
+
+
 void Pass::SetVertexShader(const String& name)
 {
     vertexShaderName_ = name;
@@ -325,6 +333,7 @@ SharedPtr<Technique> Technique::Clone(const String& cloneName) const
         newPass->SetIsDesktop(srcPass->IsDesktop());
         newPass->SetVertexShader(srcPass->GetVertexShader());
         newPass->SetPixelShader(srcPass->GetPixelShader());
+		newPass->SetTessellationProperties(srcPass->GetTessellationFactor(),srcPass->GetTessellationScaleWithDistanceFactor());
         newPass->SetVertexShaderDefines(srcPass->GetVertexShaderDefines());
         newPass->SetPixelShaderDefines(srcPass->GetPixelShaderDefines());
     }
