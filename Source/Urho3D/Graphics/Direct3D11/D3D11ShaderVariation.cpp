@@ -143,13 +143,13 @@ void ShaderVariation::Release()
 
         if (type_ == VS)
         {
-            if (graphics_->GetVertexShader() == this)
-                graphics_->SetShaders(0, 0);
+			if (graphics_->GetVertexShader() == this)
+				graphics_->SetShaders(0, 0);
         }
         else
         {
             if (graphics_->GetPixelShader() == this)
-                graphics_->SetShaders(0, 0);
+                graphics_->SetShaders(0, 0); 
         }
 
         URHO3D_SAFE_RELEASE(object_);

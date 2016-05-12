@@ -1085,7 +1085,7 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
     }
 }
 
-void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
+void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps, unsigned int tesFactor, float tesFactorScaleWithDistance)
 {
     if (vs == vertexShader_ && ps == pixelShader_)
         return;

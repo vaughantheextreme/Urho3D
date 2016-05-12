@@ -991,8 +991,10 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
     }
 }
 
-void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
+void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps, unsigned int tesFactor, float tesFactorScaleWithDistance) //##REMOVE## add logic
 {
+	tesFactor_ = tesFactor;
+	tesFactorScaleWithDistance_ = tesFactorScaleWithDistance;
     // Switch to the clip plane variations if necessary
     if (useClipPlane_)
     {

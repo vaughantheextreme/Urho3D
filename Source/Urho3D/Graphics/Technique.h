@@ -136,8 +136,8 @@ private:
     PassLightingMode lightingMode_;
     /// Last shaders loaded frame number.
     unsigned shadersLoadedFrameNumber_;
-	unsigned int tesFactor; // 1 means no tessellation performed
-	float tesFactorDistanceScale; //how number scales with distance (higher the faster tessellation factor will stop adding triangles when distance grows)
+	unsigned int tesFactor = 1; // 1 means no tessellation performed
+	float tesFactorDistanceScale = 0; //how number scales with distance (higher the faster tessellation factor will stop adding triangles when distance grows)
 	
     /// Depth write mode.
     bool depthWrite_;

@@ -190,7 +190,7 @@ void Batch::Prepare(View* view, Camera* camera, bool setModelTransform, bool all
     Texture2D* shadowMap = lightQueue_ ? lightQueue_->shadowMap_ : 0;
 
     // Set shaders first. The available shader parameters and their register/uniform positions depend on the currently set shaders
-    graphics->SetShaders(vertexShader_, pixelShader_);
+    graphics->SetShaders(vertexShader_, pixelShader_, pass_->GetTessellationFactor(),pass_->GetTessellationScaleWithDistanceFactor());
 
     // Set pass / material-specific renderstates
     if (pass_ && material_)

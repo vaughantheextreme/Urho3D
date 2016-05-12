@@ -145,7 +145,7 @@ public:
     /// Set index buffer.
     void SetIndexBuffer(IndexBuffer* buffer);
     /// Set shaders.
-    void SetShaders(ShaderVariation* vs, ShaderVariation* ps);
+    void SetShaders(ShaderVariation* vs, ShaderVariation* ps, unsigned int tesFactor = 1, float tesFactorScaleWithDistance = 0);
     /// Set shader float constants.
     void SetShaderParameter(StringHash param, const float* data, unsigned count);
     /// Set shader float constant.
@@ -432,6 +432,11 @@ public:
     /// Return whether a custom clipping plane is in use.
     bool GetUseClipPlane() const { return useClipPlane_; }
 
+	///Return Tessellation Factor
+	unsigned int GetTessellationFactor()const { return tesFactor_; }
+	///Return Tessellation Factor Scale With Distance
+	float GetTessellationFactorScaleWithDistance()const { return tesFactorScaleWithDistance_; }
+
     /// Return rendertarget width and height.
     IntVector2 GetRenderTargetDimensions() const;
 
@@ -521,6 +526,11 @@ private:
     /// Create intermediate texture for multisampled backbuffer resolve. No-op if already exists.
     void CreateResolveTexture();
 
+
+	/// Tessellation Factor
+	unsigned int tesFactor_ = 0;
+	/// Tessellation Factor Scale With Distance
+	float tesFactorScaleWithDistance_ = 0;
     /// Mutex for accessing the GPU objects vector from several threads.
     Mutex gpuObjectMutex_;
     /// Implementation.

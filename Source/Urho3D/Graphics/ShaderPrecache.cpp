@@ -133,8 +133,7 @@ void ShaderPrecache::LoadShaders(Graphics* graphics, Deserializer& source)
         ShaderVariation* vs = graphics->GetShader(VS, shader.GetAttribute("vs"), vsDefines);
         ShaderVariation* ps = graphics->GetShader(PS, shader.GetAttribute("ps"), psDefines);
         // Set the shaders active to actually compile them
-        graphics->SetShaders(vs, ps);
-
+		graphics->SetShaders(vs, ps);
         shader = shader.GetNext("shader");
     }
 

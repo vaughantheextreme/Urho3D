@@ -246,6 +246,12 @@ bool Technique::BeginLoad(Deserializer& source)
                 newPass->SetVertexShader(globalVS);
                 newPass->SetVertexShaderDefines(globalVSDefines + passElem.GetAttribute("vsdefines"));
             }
+			if (passElem.HasAttribute("tesFactor") || passElem.HasAttribute("tesFactorScaleWithDistance"))
+			{
+				unsigned int tf = passElem.HasAttribute("tesFactor") ? ToInt(passElem.GetAttribute("tesFactor")) : 1;
+				float tfs = passElem.HasAttribute("tesFactorScaleWithDistance") ? ToFloat(passElem.GetAttribute("tesFactorScaleWithDistance")) : 0;
+				newPass->SetTessellationProperties(tf,tfs);
+			}
             if (passElem.HasAttribute("ps"))
             {
                 newPass->SetPixelShader(passElem.GetAttribute("ps"));

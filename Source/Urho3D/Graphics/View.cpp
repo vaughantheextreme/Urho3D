@@ -1798,7 +1798,7 @@ void View::RenderQuad(RenderPathCommand& command)
         command.pixelShaderName_ = String::EMPTY;
 
     // Set shaders & shader parameters and textures
-    graphics_->SetShaders(vs, ps);
+	graphics_->SetShaders(vs, ps);
 
     const HashMap<StringHash, Variant>& parameters = command.shaderParameters_;
     for (HashMap<StringHash, Variant>::ConstIterator k = parameters.Begin(); k != parameters.End(); ++k)
