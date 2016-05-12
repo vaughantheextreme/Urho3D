@@ -167,7 +167,7 @@ void Water::CreateScene()
     camera->SetFarClip(750.0f);
 
     // Set an initial position for the camera scene node above the ground
-    cameraNode_->SetPosition(Vector3(0.0f, 7.0f, -20.0f));
+    cameraNode_->SetPosition(Vector3(0.0f, 17.0f, -20.0f));
 }
 
 void Water::CreateInstructions()
