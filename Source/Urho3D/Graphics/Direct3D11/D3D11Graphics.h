@@ -505,6 +505,11 @@ public:
     static unsigned GetMaxBones() { return 128; }
 
 private:
+	//Hull shader 
+	void *hsShader = NULL;
+	//Domain shader 
+	void *dsShader = NULL;
+
     /// Create the application window.
     bool OpenWindow(int width, int height, bool resizable, bool borderless);
     /// Create the application window icon.

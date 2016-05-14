@@ -64,6 +64,8 @@
 
 #include <SDL/SDL_syswm.h>
 
+#include <d3dcompiler.h>
+
 #include "../../DebugNew.h"
 
 #ifdef _MSC_VER
@@ -254,6 +256,17 @@ Graphics::Graphics(Context* context) :
 
     // Register Graphics library object factories
     RegisterGraphicsLibrary(context_);
+
+	//reads hull shader
+	void * hullShaderDatas;
+	int hullShaderDatasSize = 0;
+	HRESULT hr = D3DCompile(hullShaderDatas, hullShaderDatasSize,NULL,NULL,NULL,"hull","hs_5_0",0,0, (ID3DBlob**)&hsShader,NULL);
+
+	//reads domain shader
+	void * domainShaderDatas;
+	int domainShaderDatasSize = 0;
+	HRESULT hr = D3DCompile(domainShaderDatas, domainShaderDatasSize, NULL, NULL, NULL, "domain", "ds_5_0", 0, 0,(ID3DBlob**) &dsShader, NULL);
+
 }
 
 Graphics::~Graphics()
@@ -993,9 +1006,21 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
 
 void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps, unsigned int tesFactor, float tesFactorScaleWithDistance) //##REMOVE## add logic
 {
+	
 	tesFactor_ = tesFactor;
 	tesFactorScaleWithDistance_ = tesFactorScaleWithDistance;
-    // Switch to the clip plane variations if necessary
+    
+	if (tesFactor != tesFactor_ || tesFactorScaleWithDistance != tesFactorScaleWithDistance_)
+	{
+		//set tessellation on
+		impl_->deviceContext_->HSSetShader((ID3D11HullShader*)(tesFactor > 1 ? hsShader : 0), 0, 0);
+		impl_->deviceContext_->DSSetShader((ID3D11DomainShader*)(tesFactor > 1 ? dsShader : 0), 0, 0);
+	}
+
+	tesFactor_ = tesFactor;
+	tesFactorScaleWithDistance_ = tesFactorScaleWithDistance;
+	
+	// Switch to the clip plane variations if necessary
     if (useClipPlane_)
     {
         if (vs)

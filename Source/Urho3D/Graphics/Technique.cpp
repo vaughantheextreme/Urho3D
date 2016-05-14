@@ -214,6 +214,12 @@ bool Technique::BeginLoad(Deserializer& source)
 
     String globalVS = rootElem.GetAttribute("vs");
     String globalPS = rootElem.GetAttribute("ps");
+
+	
+	unsigned int globalTesFactor = rootElem.HasAttribute("tesFactor") ? ToInt(rootElem.GetAttribute("tesFactor")) : 1;
+	float globalTesFactorScaleWithDistance = rootElem.HasAttribute("tesFactorScaleWithDistance") ? ToFloat(rootElem.GetAttribute("tesFactorScaleWithDistance")) : 0;
+
+
     String globalVSDefines = rootElem.GetAttribute("vsdefines");
     String globalPSDefines = rootElem.GetAttribute("psdefines");
     // End with space so that the pass-specific defines can be appended
@@ -246,12 +252,11 @@ bool Technique::BeginLoad(Deserializer& source)
                 newPass->SetVertexShader(globalVS);
                 newPass->SetVertexShaderDefines(globalVSDefines + passElem.GetAttribute("vsdefines"));
             }
-			if (passElem.HasAttribute("tesFactor") || passElem.HasAttribute("tesFactorScaleWithDistance"))
-			{
-				unsigned int tf = passElem.HasAttribute("tesFactor") ? ToInt(passElem.GetAttribute("tesFactor")) : 1;
-				float tfs = passElem.HasAttribute("tesFactorScaleWithDistance") ? ToFloat(passElem.GetAttribute("tesFactorScaleWithDistance")) : 0;
-				newPass->SetTessellationProperties(tf,tfs);
-			}
+			//Set tessellation properties
+			unsigned int tf = passElem.HasAttribute("tesFactor") ? ToInt(passElem.GetAttribute("tesFactor")) : globalTesFactor;
+			float tfs = passElem.HasAttribute("tesFactorScaleWithDistance") ? ToFloat(passElem.GetAttribute("tesFactorScaleWithDistance")) : globalTesFactorScaleWithDistance;
+			newPass->SetTessellationProperties(tf,tfs);
+
             if (passElem.HasAttribute("ps"))
             {
                 newPass->SetPixelShader(passElem.GetAttribute("ps"));
